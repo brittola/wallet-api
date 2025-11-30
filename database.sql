@@ -63,3 +63,16 @@ CREATE TABLE IF NOT EXISTS conversao(
 	FOREIGN KEY (id_moeda_origem) REFERENCES moeda(id_moeda) ON DELETE CASCADE,
 	FOREIGN KEY (id_moeda_destino) REFERENCES moeda(id_moeda) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS transferencia(
+	id_transferencia BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	endereco_origem VARCHAR(255) NOT NULL,
+	endereco_destino VARCHAR(255) NOT NULL,
+	id_moeda SMALLINT NOT NULL,
+	valor DECIMAL(20, 10) NOT NULL,
+	taxa_valor DECIMAL(20, 10) NOT NULL,
+	data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (endereco_carteira_origem) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
+	FOREIGN KEY (endereco_carteira_destino) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
+	FOREIGN KEY (id_moeda) REFERENCES moeda(id_moeda) ON DELETE CASCADE
+);
