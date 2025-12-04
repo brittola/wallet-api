@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS transferencia(
 	valor DECIMAL(20, 10) NOT NULL,
 	taxa_valor DECIMAL(20, 10) NOT NULL,
 	data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (endereco_carteira_origem) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
-	FOREIGN KEY (endereco_carteira_destino) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
+	FOREIGN KEY (endereco_origem) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
+	FOREIGN KEY (endereco_destino) REFERENCES carteira(endereco_carteira) ON DELETE CASCADE,
 	FOREIGN KEY (id_moeda) REFERENCES moeda(id_moeda) ON DELETE CASCADE
 );
