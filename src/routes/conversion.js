@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
 	try {
 		const { enderecoCarteira, hashChavePrivada, valorOrigem, idMoedaOrigem, idMoedaDestino } = req.body;
 
-		const taxaPercentual = parseFloat(process.env.TAXA_CONVERSAO_PERCENTUAL || 0);
+		const taxaPercentual = parseFloat(process.env.TAXA_CONVERSAO_PERCENTUAL || 0.02);
 		const taxaValor = valorOrigem * taxaPercentual;
 
 		const queryValidacao = `SELECT * FROM carteira WHERE endereco_carteira = '${enderecoCarteira}' AND hash_chave_privada = '${hashChavePrivada}' AND status = 'ATIVA' LIMIT 1`;
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 		const responseCotacao = await axios.get(`https://api.coinbase.com/v2/prices/${moedaOrigem[0].codigo}-${moedaDestino[0].codigo}/spot`);
 		const cotacao = responseCotacao.data.data.amount;
 
-		const valorDestino = valorOrigem * cotacao - taxaValor;
+		const valorDestino = (valorOrigem - taxaValor) * cotacao;
 
 		const querySaldoAtual = `SELECT saldo FROM saldo_carteira WHERE endereco_carteira = '${enderecoCarteira}' AND id_moeda = ${idMoedaOrigem} LIMIT 1`;
 		const [saldoAtual] = await sequelize.query(querySaldoAtual);

@@ -8,13 +8,17 @@ router.post('/', async (req, res) => {
 		const { enderecoCarteira, valor, idMoeda } = req.body;
 
 		const queryDeposito = `
-			INSERT INTO deposito_saque (endereco_carteira, id_moeda, tipo, valor, taxa_valor) VALUES ('${enderecoCarteira}', ${idMoeda}, 'DEPOSITO', ${valor}, 0)
+			INSERT INTO deposito_saque (endereco_carteira, id_moeda, tipo, valor, taxa_valor)
+			VALUES ('${enderecoCarteira}', ${idMoeda}, 'DEPOSITO', ${valor}, 0)
 		`;
 
 		await sequelize.query(queryDeposito);
 
 		const querySaldoCarteira = `
-			UPDATE saldo_carteira SET saldo = saldo + ${valor} WHERE endereco_carteira = '${enderecoCarteira}' AND id_moeda = ${idMoeda}
+			UPDATE saldo_carteira
+			SET saldo = saldo + ${valor}
+			WHERE endereco_carteira = '${enderecoCarteira}'
+			AND id_moeda = ${idMoeda}
 		`;
 
 		await sequelize.query(querySaldoCarteira);

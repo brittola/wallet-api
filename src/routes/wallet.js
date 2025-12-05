@@ -10,11 +10,9 @@ router.post('/', async (req, res) => {
 		const hashChavePrivada = crypto.randomBytes(16).toString('hex');
 		const enderecoCarteira = crypto.randomBytes(8).toString('hex');
 
-		console.log(enderecoCarteira, 'ENDEREÇO CARTEIRA');
-		console.log(hashChavePrivada, 'HASH CHAVE PRIVADA');
-
 		const queryCarteira = `
-			INSERT INTO carteira (endereco_carteira, hash_chave_privada) VALUES ('${enderecoCarteira}', '${hashChavePrivada}')
+			INSERT INTO carteira (endereco_carteira, hash_chave_privada)
+			VALUES ('${enderecoCarteira}', '${hashChavePrivada}')
 		`;
 
 		await sequelize.query(queryCarteira);
